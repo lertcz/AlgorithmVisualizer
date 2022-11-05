@@ -13,11 +13,6 @@ const canvasH = 600
 
 let elements = null
 
-const sleep = ms => new Promise(
-  resolve => setTimeout(resolve, ms)
-)
-
-
 let drawArray = (canvasRef, highlight=null) => {
   let numberOfElements = elements.length
   const context = canvasRef.current.getContext('2d')
@@ -71,14 +66,8 @@ export default function Sort() {
   }
   
   useEffect(() => {
-    async function init() {
-      elements = Array.from(Array(numberOfElements).keys())
-      drawArray(canvasRef)
-      await sleep(1000) 
-      Shuffle()
-    }
-
-    init()
+    elements = Array.from(Array(numberOfElements).keys())
+    drawArray(canvasRef)
   }, [numberOfElements]);
 
   return (

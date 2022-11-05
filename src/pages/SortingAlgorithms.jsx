@@ -1,6 +1,6 @@
-function sleep(time) {
-  return new Promise(r => setTimeout(r, time))
-}
+const sleep = ms => new Promise(
+  resolve => setTimeout(resolve, ms)
+)
 
 function isSorted(arr) {
   return arr.every(function (x, i) {
@@ -39,16 +39,14 @@ export async function shuffleArray(canvasRef, elements, drawArray) {
 }
 
 export async function BubbleSort(canvasRef, elements, drawArray) {
-  if (!isSorted(elements)) {
-    for (let i = 0; i < elements.length - 1; i++) {
-      for (let j = 0; j < elements.length - i - 1; j++) {
-        if (isSorted(elements)) break
-        if (elements[j] > elements[j + 1]) {
-          [elements[j], elements[j + 1]] = [elements[j + 1], elements[j]];
-        }
-        drawArray(canvasRef, ["highlight", j+1])
-        await sleep(10)
+  for (let i = 0; i < elements.length - 1; i++) {
+    for (let j = 0; j < elements.length - i - 1; j++) {
+      if (isSorted(elements)) break
+      if (elements[j] > elements[j + 1]) {
+        [elements[j], elements[j + 1]] = [elements[j + 1], elements[j]];
       }
+      drawArray(canvasRef, ["highlight", j+1])
+      await sleep(10)
     }
   }
 
