@@ -1,0 +1,42 @@
+h1 {
+    white-space: pre; /* Problem with no wrap + slider ??? */
+}
+
+h6 {
+    min-width: 75px;
+}
+
+.btn {
+    background-color: #060b26;
+    color: #fff;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.btn:hover {
+    background-color: #1a83ff;
+    color: #fff;
+}
+
+.controlBar {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.controlBarSlider {
+    width: 200px;
+    margin: 0;
+}
+
+.sortContainer {
+    width: 70%;
+    height: 50vh;
+    //border-style: solid;
+
+    display: flex;
+}
+
+.sortElement {
+
+}
