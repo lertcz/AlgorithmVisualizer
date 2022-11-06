@@ -52,3 +52,18 @@ export async function BubbleSort(canvasRef, elements, drawArray) {
 
   wave(canvasRef, elements, drawArray)
 }
+
+export async function SelctionSort(canvasRef, elements, drawArray) {
+  for (let i = 0; i < elements.length - 1; i++) {
+    for (let j = 0; j < elements.length - i - 1; j++) {
+      if (isSorted(elements)) break
+      if (elements[j] > elements[j + 1]) {
+        [elements[j], elements[j + 1]] = [elements[j + 1], elements[j]];
+      }
+      drawArray(canvasRef, ["highlight", j+1])
+      await sleep(10)
+    }
+  }
+
+  wave(canvasRef, elements, drawArray)
+}

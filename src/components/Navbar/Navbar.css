@@ -21,12 +21,35 @@
     position: fixed;
     top: 0;
     left: -100%;
-    transition: 850ms;
+    transition: 2850ms;
+
+    /* z-index: 1; */
 }
 
 .nav-menu.active {
     left: 0;
     transition: 350ms;
+}
+
+.nav-submenu-spacer {
+    height: 140px;
+}
+
+.nav-submenu {
+    background-color: #060b26;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    justify-content: center; 
+    position: fixed;
+    top: 0;
+    left: -100%;
+    /* transition: 850ms; */
+}
+
+.nav-submenu.active {
+    left: 250px;
+    /* transition: 350ms; */
 }
 
 .nav-text {
@@ -36,6 +59,7 @@
     padding: 8px 0px 8px 16px;
     list-style: none;
     height: 60px;
+    white-space: nowrap;
 }
 
 .nav-text a {
@@ -56,6 +80,7 @@
 
 .nav-menu-items {
     width: 100%;
+    z-index: 2;
 }
 
 .navbar-toggle {

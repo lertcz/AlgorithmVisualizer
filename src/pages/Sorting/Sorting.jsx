@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { IconContext } from 'react-icons'
 import "./Sort.css";
 
 import { Slider, Stack } from '@mui/material';
 
 import * as SA from './SortingAlgorithms';
+import { Algorithms } from './SortingInfo';
 
 /* shuffle https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array */
 
@@ -12,6 +14,10 @@ const canvasW = 1000
 const canvasH = 600
 
 let elements = null
+
+const sleep = ms => new Promise(
+  resolve => setTimeout(resolve, ms)
+)
 
 let drawArray = (canvasRef, highlight=null) => {
   let numberOfElements = elements.length
@@ -41,6 +47,8 @@ export default function Sort() {
 
   const canvasRef = useRef(null)
 
+  let { algorithm } = useParams();
+
   const handleSliderChange = (event, value) => {
     setNumberOfElements(value);
   }
@@ -52,6 +60,13 @@ export default function Sort() {
       setStatus(false)
     }
   }
+  /* const Shuffle = useCallback(async () => {
+    if (!status) { // shuffle in progress
+      setStatus(true)
+      await SA.shuffleArray(canvasRef, elements, drawArray)
+      setStatus(false)
+    }
+  }, [status]) */
 
   async function Sort() {
     if (status) {
@@ -61,20 +76,29 @@ export default function Sort() {
       return
     }
     setStatus(true)
-    await SA.BubbleSort(canvasRef, elements, drawArray)
+    await Algorithms[algorithm].sortingFunction(canvasRef, elements, drawArray)
     setStatus(false)
   }
   
   useEffect(() => {
     elements = Array.from(Array(numberOfElements).keys())
     drawArray(canvasRef)
-  }, [numberOfElements]);
+  }, [numberOfElements, algorithm]);
+
+  useEffect(() => {
+    const loadShuffle = async () => {
+      await sleep(1000)
+      Shuffle()
+    }
+    loadShuffle()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [algorithm])
 
   return (
     <div className="pageContent">
       <Stack spacing={5} direction="row" sx={{ mb: 1 }} alignItems="center" >
         <div className="controlBarName">
-          <h1>Bubble sort</h1>
+          <h1>{Algorithms[algorithm].name}</h1>
         </div>
         <IconContext.Provider value={{color: "#fff"}}>
           {/* shuffle button */}
