@@ -43,27 +43,48 @@ export async function BubbleSort(canvasRef, elements, drawArray) {
     for (let j = 0; j < elements.length - i - 1; j++) {
       if (isSorted(elements)) break
       if (elements[j] > elements[j + 1]) {
-        [elements[j], elements[j + 1]] = [elements[j + 1], elements[j]];
+        [elements[j], elements[j + 1]] = [elements[j + 1], elements[j]]
       }
       drawArray(canvasRef, ["highlight", j+1])
       await sleep(10)
     }
   }
 
-  wave(canvasRef, elements, drawArray)
+  await wave(canvasRef, elements, drawArray)
 }
 
 export async function SelctionSort(canvasRef, elements, drawArray) {
-  for (let i = 0; i < elements.length - 1; i++) {
-    for (let j = 0; j < elements.length - i - 1; j++) {
-      if (isSorted(elements)) break
-      if (elements[j] > elements[j + 1]) {
-        [elements[j], elements[j + 1]] = [elements[j + 1], elements[j]];
+  let minimumIndex = null
+  for (let i = 0; i < elements.length; i++) {
+    minimumIndex = i
+    for (let j = 0+i; j < elements.length; j++) {
+      if (elements[j] < elements[minimumIndex]) {
+        minimumIndex = j
       }
-      drawArray(canvasRef, ["highlight", j+1])
-      await sleep(10)
-    }
+    };
+    [elements[minimumIndex], elements[i]] = [elements[i], elements[minimumIndex]]
+    drawArray(canvasRef, ["highlight", minimumIndex])
+    await sleep(100);
   }
+
+  await wave(canvasRef, elements, drawArray)
+}
+
+/* inserion sort */
+export async function InsertionSort(canvasRef, elements, drawArray) {
 
   wave(canvasRef, elements, drawArray)
 }
+
+/* quick sort */
+export async function QuickSort(canvasRef, elements, drawArray) {
+
+  wave(canvasRef, elements, drawArray)
+}
+
+/* merge sort */
+/* counting sort */
+/* radix sort */
+/* Bucket sort */
+/* Comb sort */
+/* Shell sort */

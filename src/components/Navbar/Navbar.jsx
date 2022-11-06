@@ -29,6 +29,7 @@ function Navbar() {
     else {
       return (
         <>
+        {/* main element */}
         <li key={props.index} className={item.cName} onMouseOver={() => setMouseOver(true)} onMouseLeave={() => setMouseOver(false)}>
           <Link>
             {item.icon}
@@ -37,6 +38,7 @@ function Navbar() {
             : <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="2.5em" width="3.5em" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" d="M0 0h24v24H0z"></path><path d="M12 14l-4-4h8z"></path></g></svg>}
           </Link>
         </li>
+        {/* submenu */}
         <nav className={mouseOver ? "nav-submenu active" : "nav-submenu"}>
           <ul className='nav-menu-items'>
             <div className='nav-submenu-spacer'/>

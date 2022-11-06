@@ -20,6 +20,14 @@ export const SidebarData = [
             {
                 name: "Selection Sort",
                 algorithm: "/SelctionSort"
+            },
+            {
+                name: "Insertion Sort",
+                algorithm: "/InsertionSort"
+            },
+            {
+                name: "Quick Sort",
+                algorithm: "/QuickSort"
             }]
     },
     {

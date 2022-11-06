@@ -13,4 +13,16 @@ export const Algorithms = {
         complexity: [null, null, null, null],
         information: ""
     },
+    InsertionSort: {
+        name: "Insertion Sort",
+        sortingFunction: SA.InsertionSort,
+        complexity: [null, null, null, null],
+        information: ""
+    },
+    QuickSort: {
+        name: "Quick Sort",
+        sortingFunction: SA.QuickSort,
+        complexity: [null, null, null, null],
+        information: ""
+    },
 }
