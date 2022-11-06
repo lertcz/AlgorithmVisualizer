@@ -72,8 +72,20 @@ export async function SelctionSort(canvasRef, elements, drawArray) {
 
 /* inserion sort */
 export async function InsertionSort(canvasRef, elements, drawArray) {
+  for (let i = 1; i < elements.length; i++) {
+    let currentIndex = i
+    while (currentIndex >= 1) {
+      if (elements[currentIndex] < elements[currentIndex - 1]) {
+        [elements[currentIndex], elements[currentIndex - 1]] = [elements[currentIndex - 1], elements[currentIndex]]
+      }
+      else break
+      drawArray(canvasRef, ["highlight", currentIndex - 1])
+      await sleep(100);
+      currentIndex--
+    }
+  }
 
-  wave(canvasRef, elements, drawArray)
+  await wave(canvasRef, elements, drawArray)
 }
 
 /* quick sort */
