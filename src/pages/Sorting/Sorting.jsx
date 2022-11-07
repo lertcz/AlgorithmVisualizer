@@ -35,6 +35,12 @@ let drawArray = (canvasRef, highlight=null) => {
     else if (highlight && highlight[0] === "wave") {
       context.fillStyle = (![...Array(highlight[2] - highlight[1] + 1).keys()].map(x => x + highlight[1]).includes(i)) ? '#a6a6a6' : 'green'
     }
+    else if (highlight && highlight[0] === "pivot") {
+      if (highlight[1] === i) context.fillStyle = 'blue';
+      else if (highlight[2] === i) context.fillStyle = 'red';
+      else if (highlight[3] === i) context.fillStyle = 'green';
+      else context.fillStyle = "#a6a6a6";
+    }
 
     context.fillRect(size*(i)+i, canvasH - height * (elements[i]+1), size, height * (elements[i]+1))
   }

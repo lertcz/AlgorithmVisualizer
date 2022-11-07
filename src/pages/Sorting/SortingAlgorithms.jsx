@@ -70,7 +70,6 @@ export async function SelctionSort(canvasRef, elements, drawArray) {
   await wave(canvasRef, elements, drawArray)
 }
 
-/* inserion sort */
 export async function InsertionSort(canvasRef, elements, drawArray) {
   for (let i = 1; i < elements.length; i++) {
     let currentIndex = i
@@ -88,10 +87,58 @@ export async function InsertionSort(canvasRef, elements, drawArray) {
   await wave(canvasRef, elements, drawArray)
 }
 
-/* quick sort */
 export async function QuickSort(canvasRef, elements, drawArray) {
+  /* p - partition, S - start, E - end*/
+  async function _QuickSort(pS, pE) {
+    let pivot = ((pE + pS) / 2) >> 0 // middle point
+    pE -= 1
 
-  wave(canvasRef, elements, drawArray)
+    // R: item from right - will be 1st element < pivot
+    // L: item from left - will be 1st element > pivot
+    let R, L
+    // loop prevention
+    let numberOfSwaps = 0
+
+    console.log("Original pivot:", pivot);
+    [elements[pE], elements[pivot]] = [elements[pivot], elements[pE]]
+    pivot = pE
+    
+    do {
+      R = pE
+      L = pS 
+
+      // element from right
+      for (; R > pS; R--) {
+        if (elements[R] < elements[pivot]) break
+      }
+      
+      // element from left
+      for (; L < pE; L++) {
+        if (elements[L] > elements[pivot]) break
+      }
+
+      if (R > L) {
+        [elements[L], elements[R]] = [elements[R], elements[L]]
+        numberOfSwaps += 1
+      }
+      // with last step pivot and element from left will be swapped
+      else if (numberOfSwaps) [elements[pivot], elements[L]] = [elements[L], elements[pivot]]
+      
+      drawArray(canvasRef, ["pivot", L, pivot, R])
+      await sleep(100)
+    } while (R > L)
+
+    console.log("lastswap")
+    drawArray(canvasRef, ["highlight", L])
+    await sleep(500)
+    
+    if (((pS + L-1) / 2) >> 0 !== 0 && numberOfSwaps > 0) await _QuickSort(pS, L-1)
+    if (((L+1 + pE+1) / 2) >> 0 !== 0 && numberOfSwaps > 0) await _QuickSort(L+1, pE+1)
+  }
+
+  await _QuickSort(0, elements.length)
+
+  await wave(canvasRef, elements, drawArray)
 }
 
 /* merge sort */
