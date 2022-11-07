@@ -13,9 +13,9 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path='/' exact element={<Home />} />
-        <Route path='/sort/:algorithm' element={<Sorting />} />
-        <Route path='/pathfinding' element={<Pathfinding />} />
+        <Route path='/AlgorithmVisualizer' exact element={<Home />} />
+        <Route path='/AlgorithmVisualizer/sort/:algorithm' element={<Sorting />} />
+        <Route path='/AlgorithmVisualizer/pathfinding' element={<Pathfinding />} />
       </Routes>
     </Router>
     </>
