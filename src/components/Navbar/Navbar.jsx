@@ -19,7 +19,7 @@ function Navbar() {
     if (item.subMenu === null) {
       return (
         <li key={props.index} className={item.cName} onClick={showSidebar}>
-          <Link to={item.path}>
+          <Link to={"/AlgorithmVisualizer" + item.path}>
             {item.icon}
             <span>{item.title}</span>
           </Link>
@@ -46,7 +46,7 @@ function Navbar() {
             return (
               <li key={subIndex+10} className={item.cName + " sub"} onClick={() => {setMouseOver(false); setSidebar()}} 
               onMouseOver={() => setMouseOver(true)} onMouseLeave={() => setMouseOver(false)}>
-                <Link to={item.path + subItem.algorithm}>
+                <Link to={"/AlgorithmVisualizer" + item.path + subItem.algorithm}>
                   <span>{subItem.name}</span>
                 </Link>
               </li>
