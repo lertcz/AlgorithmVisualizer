@@ -13,7 +13,7 @@ async function wave(canvasRef, arr, drawArray) {
 
   for (let i = 0; i < arr.length + waveLength-1; i++) {
     drawArray(canvasRef, ["wave", i, i+waveLength-1])
-    await sleep(75)
+    await sleep(25)
   }
 
   drawArray(canvasRef)
@@ -33,7 +33,7 @@ export async function shuffleArray(canvasRef, elements, drawArray) {
     [elements[currentIndex], elements[randomIndex]] = [elements[randomIndex], elements[currentIndex]];
 
     drawArray(canvasRef, ["highlight", randomIndex])
-    await sleep(50) // 100
+    await sleep(25) // 50 | 100
   }
   drawArray(canvasRef)
 }
@@ -88,6 +88,7 @@ export async function InsertionSort(canvasRef, elements, drawArray) {
 }
 
 export async function QuickSort(canvasRef, elements, drawArray) {
+  let _time = 200
   /* p - partition, S - start, E - end*/
   async function _QuickSort(pS, pE) {
     let pivot = ((pE + pS) / 2) >> 0 // middle point
@@ -96,44 +97,51 @@ export async function QuickSort(canvasRef, elements, drawArray) {
     // R: item from right - will be 1st element < pivot
     // L: item from left - will be 1st element > pivot
     let R, L
+
     // loop prevention
-    let numberOfSwaps = 0
+    //let numberOfSwaps = 0
 
     console.log("Original pivot:", pivot);
     [elements[pE], elements[pivot]] = [elements[pivot], elements[pE]]
     pivot = pE
+
+    /* drawArray(canvasRef)
+    await sleep(_time) */
     
     do {
-      R = pE
+      console.log("Pivot size:", elements[pivot])
+      R = pE-1
       L = pS 
 
       // element from right
       for (; R > pS; R--) {
-        if (elements[R] < elements[pivot]) break
+        console.log("R:", R, "size:", elements[R])
+        if (elements[R] < elements[pivot]) break // L != pivot && 
       }
       
       // element from left
       for (; L < pE; L++) {
-        if (elements[L] > elements[pivot]) break
+        console.log("L:", L, "size:", elements[L])
+        if (elements[L] > elements[pivot]) break // L != pivot && 
       }
-
+      
       if (R > L) {
         [elements[L], elements[R]] = [elements[R], elements[L]]
-        numberOfSwaps += 1
+        //numberOfSwaps += 1
       }
       // with last step pivot and element from left will be swapped
-      else if (numberOfSwaps) [elements[pivot], elements[L]] = [elements[L], elements[pivot]]
+      else [elements[pivot], elements[L]] = [elements[L], elements[pivot]]
       
       drawArray(canvasRef, ["pivot", L, pivot, R])
-      await sleep(100)
-    } while (R > L)
+      await sleep(_time)
+    } while (R > L && R !== pS && L !== pE-1)
 
     console.log("lastswap")
     drawArray(canvasRef, ["highlight", L])
-    await sleep(500)
+    await sleep(_time)
     
-    if (((pS + L-1) / 2) >> 0 !== 0 && numberOfSwaps > 0) await _QuickSort(pS, L-1)
-    if (((L+1 + pE+1) / 2) >> 0 !== 0 && numberOfSwaps > 0) await _QuickSort(L+1, pE+1)
+    //if (((pS + L-1) / 2) >> 0 !== 0 && numberOfSwaps > 0) await _QuickSort(pS, L-1)
+    //if (((L+1 + pE+1) / 2) >> 0 !== 0 && numberOfSwaps > 0) await _QuickSort(L+1, pE+1)
   }
 
   await _QuickSort(0, elements.length)
@@ -142,6 +150,59 @@ export async function QuickSort(canvasRef, elements, drawArray) {
 }
 
 /* merge sort */
+export async function MergeSort(canvasRef, elements, drawArray) {
+  let _time = 50
+  async function _MergeSort(start, end) {
+    if (start === end) return
+    
+    let mid = ((start + end) / 2) >> 0
+
+    await _MergeSort(start, mid)
+    await _MergeSort(mid+1, end)
+    await _Merge(start, mid, end)
+  }
+  
+  async function _Merge(start, mid, end) {
+    console.log("\nMerge:", start, mid, end)
+
+    // temp arrays     size of array                        startAt
+    let L = elements.slice(start, mid+1) // [...Array(mid - start + 1).keys()].map(i => i + start)
+    let R = elements.slice(mid+1, end+1) // [...Array(end - mid).keys()].map(i => i + mid + 1)
+    let insertionLocation = start
+    let Rlen = R.length
+
+    console.log(L, R)
+    // while there are items in both lists get rid of one side
+    while (L.length && R.length) {
+      if (L[0] < R[0]) {
+        elements[insertionLocation] = L.shift()
+        
+      }
+      else {
+        elements[insertionLocation] = R.shift()
+      }
+      // TODO remove elements that are taken from
+      // elements[Rlen - insertionLocation + 1] = -1
+      insertionLocation++
+
+      drawArray(canvasRef, ["highlight", insertionLocation])
+      await sleep(_time)
+    }
+    
+    // add rest
+    L = L.concat(R)
+    while (L.length) {
+      elements[insertionLocation] = L.shift()
+      insertionLocation++
+      drawArray(canvasRef, ["highlight", insertionLocation])
+      await sleep(_time)
+    }
+  }
+
+  await _MergeSort(0, elements.length-1)
+
+  await wave(canvasRef, elements, drawArray)
+}
 /* counting sort */
 /* radix sort */
 /* Bucket sort */

@@ -74,7 +74,7 @@ export default function Sort() {
     }
   }, [status]) */
 
-  async function Sort() {
+  async function _Sort() {
     if (status) {
       elements = Array.from(Array(numberOfElements).keys())
       drawArray(canvasRef)
@@ -109,7 +109,7 @@ export default function Sort() {
         <IconContext.Provider value={{color: "#fff"}}>
           {/* shuffle button */}
           <button className="btn" onClick={Shuffle} disabled={status}><svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="2.5em" width="2.5em" xmlns="http://www.w3.org/2000/svg"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg></button>
-          <button className="btn" onClick={Sort}>
+          <button className="btn" onClick={_Sort}>
             {/* play / pause button */}
             {status ? <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" height="2.5em" width="2.5em" xmlns="http://www.w3.org/2000/svg"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"></path></svg>
             : <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" height="2.5em" width="2.5em" xmlns="http://www.w3.org/2000/svg"><path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"></path></svg>}
@@ -118,7 +118,8 @@ export default function Sort() {
         
         <h6>{numberOfElements}</h6>
         <div className="controlBarSlider">
-          <Slider className="controlBarSlider" disabled={status} min={10} max={100} defaultValue={defaultSliderValue} step={5} size="medium" aria-label="Default" onChange={handleSliderChange} />
+          <Slider className="controlBarSlider" disabled={status} min={10} max={250} defaultValue={defaultSliderValue} step={5} size="medium" aria-label="Default" onChange={handleSliderChange} />
+          {/* <Slider className="controlBarSlider" disabled={status} min={1} max={25} defaultValue={defaultSliderValue} step={1} size="medium" aria-label="Default" onChange={handleSliderChange} /> */}
         </div>
       </Stack>
         <canvas className="sortContainer" id="canvas" ref={canvasRef} width={canvasW} height={canvasH} />

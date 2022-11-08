@@ -34,6 +34,8 @@ function Navbar() {
           <Link>
             {item.icon}
             <span>{item.title}</span>
+            {/* rotating as animation */}
+            {/* <svg className={mouseOver ? "sideArrow active": "sideArrow"} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1.5em" width="3.5em" xmlns="http://www.w3.org/2000/svg"><path d="M192 128l128 128-128 128z"></path></svg> */}
             {mouseOver ? <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1.5em" width="3.5em" xmlns="http://www.w3.org/2000/svg"><path d="M192 128l128 128-128 128z"></path></svg>
             : <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="2.5em" width="3.5em" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" d="M0 0h24v24H0z"></path><path d="M12 14l-4-4h8z"></path></g></svg>}
           </Link>

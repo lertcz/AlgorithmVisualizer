@@ -48,8 +48,24 @@
 }
 
 .nav-submenu.active {
-    left: 250px;
+    left: 240px;
     /* transition: 350ms; */
+    animation-name: ckw;
+    animation-duration: 15.5s;
+}
+
+#sideArrow.active{
+    animation-name: arrow;
+    animation-duration: 2s;
+}
+
+@keyframes arrow {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(90deg);
+    }
 }
 
 .nav-text {

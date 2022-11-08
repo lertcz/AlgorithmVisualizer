@@ -25,4 +25,10 @@ export const Algorithms = {
         complexity: [null, null, null, null],
         information: ""
     },
+    MergeSort: {
+        name: "Merge Sort",
+        sortingFunction: SA.MergeSort,
+        complexity: [null, null, null, null],
+        information: ""
+    },
 }

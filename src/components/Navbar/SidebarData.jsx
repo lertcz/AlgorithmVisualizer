@@ -28,6 +28,10 @@ export const SidebarData = [
             {
                 name: "Quick Sort",
                 algorithm: "/QuickSort"
+            },
+            {
+                name: "Merge Sort",
+                algorithm: "/MergeSort"
             }]
     },
     {
