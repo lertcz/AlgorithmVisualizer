@@ -88,68 +88,41 @@ export async function InsertionSort(canvasRef, elements, drawArray) {
 }
 
 export async function QuickSort(canvasRef, elements, drawArray) {
-  let _time = 200
+  let _time = 250
   /* p - partition, S - start, E - end*/
-  async function _QuickSort(pS, pE) {
-    let pivot = ((pE + pS) / 2) >> 0 // middle point
-    pE -= 1
-
-    // R: item from right - will be 1st element < pivot
-    // L: item from left - will be 1st element > pivot
-    let R, L
-
-    // loop prevention
-    //let numberOfSwaps = 0
-
-    console.log("Original pivot:", pivot);
-    [elements[pE], elements[pivot]] = [elements[pivot], elements[pE]]
-    pivot = pE
-
-    /* drawArray(canvasRef)
-    await sleep(_time) */
+  async function _QuickSort(start, end) {
+    if (start < end) {
+      let pivot = await _Partiotion(start, end)
+      await _QuickSort(start, pivot - 1)
+      await _QuickSort(pivot + 1, end)
+    }
     
-    do {
-      console.log("Pivot size:", elements[pivot])
-      R = pE-1
-      L = pS 
+  }
+  
+  async function _Partiotion(start, end) {
+    let pivot = elements[end]
+    let i = start - 1
 
-      // element from right
-      for (; R > pS; R--) {
-        console.log("R:", R, "size:", elements[R])
-        if (elements[R] < elements[pivot]) break // L != pivot && 
-      }
-      
-      // element from left
-      for (; L < pE; L++) {
-        console.log("L:", L, "size:", elements[L])
-        if (elements[L] > elements[pivot]) break // L != pivot && 
-      }
-      
-      if (R > L) {
-        [elements[L], elements[R]] = [elements[R], elements[L]]
-        //numberOfSwaps += 1
-      }
-      // with last step pivot and element from left will be swapped
-      else [elements[pivot], elements[L]] = [elements[L], elements[pivot]]
-      
-      drawArray(canvasRef, ["pivot", L, pivot, R])
-      await sleep(_time)
-    } while (R > L && R !== pS && L !== pE-1)
+    for (let j = start; j <= end-1; j++) { // !
+      if (elements[j] < pivot) {
+        i++
+        [elements[i], elements[j]] = [elements[j], elements[i]]
 
-    console.log("lastswap")
-    drawArray(canvasRef, ["highlight", L])
-    await sleep(_time)
-    
-    //if (((pS + L-1) / 2) >> 0 !== 0 && numberOfSwaps > 0) await _QuickSort(pS, L-1)
-    //if (((L+1 + pE+1) / 2) >> 0 !== 0 && numberOfSwaps > 0) await _QuickSort(L+1, pE+1)
+        drawArray(canvasRef, ["pivot", i, end, j])
+        await sleep(250)
+      }
+    }
+    [elements[i + 1], elements[end]] = [elements[end], elements[i + 1]]
+
+
+    return i + 1
   }
 
-  await _QuickSort(0, elements.length)
+  await _QuickSort(0, elements.length-1)
 
   await wave(canvasRef, elements, drawArray)
 }
 
-/* merge sort */
 export async function MergeSort(canvasRef, elements, drawArray) {
   let _time = 50
   async function _MergeSort(start, end) {
@@ -163,15 +136,11 @@ export async function MergeSort(canvasRef, elements, drawArray) {
   }
   
   async function _Merge(start, mid, end) {
-    console.log("\nMerge:", start, mid, end)
-
-    // temp arrays     size of array                        startAt
-    let L = elements.slice(start, mid+1) // [...Array(mid - start + 1).keys()].map(i => i + start)
-    let R = elements.slice(mid+1, end+1) // [...Array(end - mid).keys()].map(i => i + mid + 1)
+    // temp arrays
+    let L = elements.slice(start, mid+1)
+    let R = elements.slice(mid+1, end+1)
     let insertionLocation = start
-    let Rlen = R.length
 
-    console.log(L, R)
     // while there are items in both lists get rid of one side
     while (L.length && R.length) {
       if (L[0] < R[0]) {
@@ -185,7 +154,7 @@ export async function MergeSort(canvasRef, elements, drawArray) {
       // elements[Rlen - insertionLocation + 1] = -1
       insertionLocation++
 
-      drawArray(canvasRef, ["highlight", insertionLocation])
+      drawArray(canvasRef, ["highlight", insertionLocation-1])
       await sleep(_time)
     }
     
@@ -194,7 +163,7 @@ export async function MergeSort(canvasRef, elements, drawArray) {
     while (L.length) {
       elements[insertionLocation] = L.shift()
       insertionLocation++
-      drawArray(canvasRef, ["highlight", insertionLocation])
+      drawArray(canvasRef, ["highlight", insertionLocation-1])
       await sleep(_time)
     }
   }
