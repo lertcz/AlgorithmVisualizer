@@ -8,18 +8,33 @@ function isSorted(arr) {
   });
 }
 
+function __getSquaredTime(ms, NoE) {
+  // Number of elements
+  return ms/(NoE * NoE)
+}
+
+function __getLogTime(ms, NoE) {
+  return ms/(NoE * Math.log(NoE))
+  
+}
+
 async function wave(canvasRef, arr, drawArray) {
+  let _time = __getSquaredTime(20000, arr.length)
   let waveLength = Math.floor(arr.length / 6)
 
   for (let i = 0; i < arr.length + waveLength-1; i++) {
     drawArray(canvasRef, ["wave", i, i+waveLength-1])
-    await sleep(25)
+    await sleep(_time)
   }
 
   drawArray(canvasRef)
 }
 
+let timeToSort = 20000
+
 export async function shuffleArray(canvasRef, elements, drawArray) {
+  let _time = __getSquaredTime(timeToSort/5, elements.length)
+  
   //let oldLength = elements.length
   let currentIndex = elements.length,  randomIndex;
 
@@ -33,12 +48,14 @@ export async function shuffleArray(canvasRef, elements, drawArray) {
     [elements[currentIndex], elements[randomIndex]] = [elements[randomIndex], elements[currentIndex]];
 
     drawArray(canvasRef, ["highlight", randomIndex])
-    await sleep(25) // 50 | 100
+    await sleep(_time)
   }
   drawArray(canvasRef)
 }
 
 export async function BubbleSort(canvasRef, elements, drawArray) {
+  let _time = __getSquaredTime(timeToSort, elements.length)
+
   for (let i = 0; i < elements.length - 1; i++) {
     for (let j = 0; j < elements.length - i - 1; j++) {
       if (isSorted(elements)) break
@@ -46,7 +63,7 @@ export async function BubbleSort(canvasRef, elements, drawArray) {
         [elements[j], elements[j + 1]] = [elements[j + 1], elements[j]]
       }
       drawArray(canvasRef, ["highlight", j+1])
-      await sleep(10)
+      await sleep(_time)
     }
   }
 
@@ -54,6 +71,8 @@ export async function BubbleSort(canvasRef, elements, drawArray) {
 }
 
 export async function SelctionSort(canvasRef, elements, drawArray) {
+  let _time = __getSquaredTime(timeToSort, elements.length)
+  
   let minimumIndex = null
   for (let i = 0; i < elements.length; i++) {
     minimumIndex = i
@@ -64,13 +83,15 @@ export async function SelctionSort(canvasRef, elements, drawArray) {
     };
     [elements[minimumIndex], elements[i]] = [elements[i], elements[minimumIndex]]
     drawArray(canvasRef, ["highlight", minimumIndex])
-    await sleep(100);
+    await sleep(_time);
   }
 
   await wave(canvasRef, elements, drawArray)
 }
 
 export async function InsertionSort(canvasRef, elements, drawArray) {
+  let _time = __getSquaredTime(timeToSort, elements.length)
+  
   for (let i = 1; i < elements.length; i++) {
     let currentIndex = i
     while (currentIndex >= 1) {
@@ -79,7 +100,7 @@ export async function InsertionSort(canvasRef, elements, drawArray) {
       }
       else break
       drawArray(canvasRef, ["highlight", currentIndex - 1])
-      await sleep(100);
+      await sleep(_time);
       currentIndex--
     }
   }
@@ -88,7 +109,8 @@ export async function InsertionSort(canvasRef, elements, drawArray) {
 }
 
 export async function QuickSort(canvasRef, elements, drawArray) {
-  let _time = 250
+  let _time = __getLogTime(timeToSort, elements.length)
+
   /* p - partition, S - start, E - end*/
   async function _QuickSort(start, end) {
     if (start < end) {
@@ -109,7 +131,7 @@ export async function QuickSort(canvasRef, elements, drawArray) {
         [elements[i], elements[j]] = [elements[j], elements[i]]
 
         drawArray(canvasRef, ["pivot", i, end, j])
-        await sleep(250)
+        await sleep(_time)
       }
     }
     [elements[i + 1], elements[end]] = [elements[end], elements[i + 1]]
@@ -124,7 +146,8 @@ export async function QuickSort(canvasRef, elements, drawArray) {
 }
 
 export async function MergeSort(canvasRef, elements, drawArray) {
-  let _time = 50
+  let _time = __getLogTime(timeToSort, elements.length)
+  
   async function _MergeSort(start, end) {
     if (start === end) return
     
@@ -172,8 +195,20 @@ export async function MergeSort(canvasRef, elements, drawArray) {
 
   await wave(canvasRef, elements, drawArray)
 }
-/* counting sort */
-/* radix sort */
+
+export async function CountingSort(canvasRef, elements, drawArray) {
+  // O(nk) n = array len, k is range of elements (K = largest - smallest)
+  //let _time = 20000 / (elements.length * (elements.length >= 100 ? 3 : 2))
+
+  await wave(canvasRef, elements, drawArray)
+}
+
+export async function RadixSort(canvasRef, elements, drawArray) {
+  // O(nd) n = array len, d len of largest number
+  //let _time = 20000 / (elements.length * (elements.length >= 100 ? 3 : 2))
+
+  await wave(canvasRef, elements, drawArray)
+}
 /* Bucket sort */
 /* Comb sort */
 /* Shell sort */
